@@ -6,8 +6,12 @@
 
 body {
     display: flex;
+    flex-direction: column;
     height: 100vh;
     min-height: 100%;
+    width: 100vw;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 ul {
@@ -22,47 +26,48 @@ a {
 a:visited {
     color: white;
 }
-
 /*---ASIDE_STYLE-------------------------------------*/
+
+
 .aside_wrapper {
-    width: 450px;
+    width: 100%;
     background: #181818;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    height: 100%;
+    height: 20%;
 }
-
-
 /*Score style*/
+
 .score_wrapper {
     background: #313030;
-    height: 150px;
-    width: 100%;
+    height: 100%;
+    width: 33%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 5% 2%;
+    margin-bottom: 0;
 }
 
 .score_text {
     color: #e1e1e1;
-    font-size: 45px;
+    font-size: 6em;
     font-family: monospace;
 }
-
 .score {
     color: #e1e1e1;
-    font-size: 55px;
+    font-size: 6em;
     font-family: monospace;
 }
+
+
 /*Score style end*/
-
-
 /*Example screen style*/
+
 .example_screen {
-    width: 100%;
-    height: 300px;
+    width: 33%;
+    height: 110%;
     background: white;
     border: 1px dashed black;
     border-radius: 5px;
@@ -70,30 +75,40 @@ a:visited {
     justify-content: center;
     align-items: center;
     pointer-events: none;
+    z-index: 100;
 }
 
-.figure_example {
-    width: 100px;
-    height: 100px;
-    background: black;
-}
+
 /*Example screen style end*/
 
+/*Controls style end*/
 
+.controls {
+    width: 33%;
+    height: 100%;
+    display: flex;
+
+}
+
+
+/*Controls screen style end*/
 /*Timer style*/
+
 .timer_wrapper {
     display: flex;
     flex-direction: column;
-    padding: 10px 5px;
-    height: 150px;
+    align-items: center;
+    justify-content: center;
+    padding: 3% 2%;
+    height: 100%;
+    flex: 1 1 50%;
 }
 
 .timer_text {
     color: white;
-    font-size: 60px;
+    font-size: 5em;
     text-align: center;
 }
-
 .fa-clock {
     color: white;
     font-size: 60px;
@@ -101,144 +116,68 @@ a:visited {
     height: 60px;
     z-index: 100;
 }
+
 /*Timer style end*/
 
 
-/*Levels style*/
-.level_navigation_wrapper {
-    width: 100%;
-    border: 1px solid white;
-}
-
-.level_wrapper {
-    width: 100%;
-    text-align: center;
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
-}
-
-.level_wrapper::before,
-.level_wrapper::after {
-    content: '';
-    position: absolute;
-    width: 100%;
+/*Button style end*/
+.button_wrapper {
+    width: 33%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100%;
-    transition: all ease-out 0.6s;
-    opacity: 0;
-    background: black;
-    z-index: -1;
+    flex: 1 1 50%;
 }
 
-.level_wrapper::before {
+.begin_button {
+    height: 50%;
+    width: 100%;
+    background: none;
+    border: 2px solid #ffffff;
+    color: white;
+    font-size: 2.5em;
+    padding: 5px 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 50%;
+    pointer-events: none;
+    position: relative;
+
+}
+
+
+.begin_button::before,
+.begin_button::after {
+    content: '';
+    
+}
+
+.begin_button::before {
     left: -100%;
 }
 
-.level_wrapper::after {
+.begin_button::after {
     right: -100%;
 }
 
-.level_wrapper:hover::before{
+.begin_button:hover::before{
     opacity: 100%;
     transform: translateX(50%);
 
 }
 
-.level_wrapper:hover::after{
+.begin_button:hover::after{
     opacity: 100%;
     transform: translateX(-50%);
 }
 
-.level_link {
-    font-size: 30px;
-    line-height: 2em;
-    width: fit-content;
-    position: relative;
-}
-
-.level_link::before {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    transition: all ease-out 0.6s;
-    background: #d39336;
-    bottom: -10px;
-    z-index: 0;
-}
-
-.level_wrapper:hover .level_link{
-    font-weight: bold;
-}
-
-.level_wrapper:hover .level_link::before {
-    width: 100%;
-}
-/*Levels style end*/
-
-
-/*Controls style end*/
-
-
-.controls {
-    display: flex;
-    padding: 10px 15px;
-    align-items: center;
-    justify-content: space-around;
-    width: 100%;
-}
-
-
-/*Controls style end*/
-
-
-/*Button style end*/
-
-
-.begin_button {
-    width: 200px;
-    height: 50px;
-    background: none;
-    border: 2px solid #d39336;
-    color: white;
-    font-size: 25px;
-    padding: 5px 10px;
-    margin-top: 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    opacity: 50%;
-    pointer-events: none;
-
-}
-
-.active {
-    opacity: 100%;
-    pointer-events: auto;
-}
-
-
-/*Button style end*/
-
-
-/*Color picker style*/
-
-
-.color_picker {
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    margin-top: 15px;
-}
-
-
-/*Color picker style end*/
 
 /*---GAME_SPACE_STYLE-------------------------------------*/
 
 .game_space_wrapper {
     flex-grow: 1;
-    background: darkorange;
-    position: relative;
     overflow: hidden;
 }
 
@@ -250,9 +189,10 @@ canvas {
     pointer-events: none;
 }
 
-.figure {
-    position: absolute;
-    cursor: pointer;
+
+.active {
+    opacity: 100%;
+    pointer-events: auto;
 }
 
 

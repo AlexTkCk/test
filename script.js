@@ -21,6 +21,7 @@ class Rectangle {
         this.color = this._getRandomColor();
         this.stroke = this._getRandomColor();
     }
+
     draw() {
         game_space_canvas_context.fillStyle = this.color
         game_space_canvas_context.fillRect(this.x, this.y, this.width, this.height)
@@ -30,7 +31,7 @@ class Rectangle {
         return this.x <= x
             && x <= this.x + this.width
             && this.y <= y
-            && y<= this.y + this.height
+            && y <= this.y + this.height
     }
 
     draw_in_center() {
@@ -76,32 +77,91 @@ class Circle {
     }
 
     collide(x, y) {
-        return ((x - this.x)**2 + (y - this.y)**2)**(1/2) <= this.r
+        return ((x - this.x) ** 2 + (y - this.y) ** 2) ** (1 / 2) <= this.r
     }
 }
 
 class Triangle {
     constructor() {
-        this.x = 0
-        this.y = 0
-        this.side = 0
-        this.stroke = 'none'
-        this.color = 'none'
-        this.type = 0
+        this.x = 0;
+        this.y = 0;
+        this.A1 = [];
+        this.A2 = [];
+        this.A3 = [];
+        this.side = 0;
+        this.stroke = 'none';
+        this.color = 'none';
+        this.type = 0;
         this._createParameters();
     }
 
     _getRandomColor() {
-        return `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
+        return `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`;
+    }
+
+    _getCoordsFromPoint(x, y) {
+        let A1, A2, A3;
+        switch (this.type) {
+            case 0:
+                A1 = [x + Math.ceil(this.side / 2), y];
+                A2 = [x + this.side, y + this.side];
+                A3 = [x, y + this.side];
+                break
+            case 1:
+                A1 = [x, y];
+                A2 = [x + this.side, y];
+                A3 = [x + this.side, y + this.side];
+                break
+            case 2:
+                A1 = [x, y];
+                A2 = [x + this.side, y + Math.ceil(this.side / 2)];
+                A3 = [x, y + this.side];
+                break
+            case 3:
+                A1 = [x + this.side, y];
+                A2 = [x + this.side, y + this.side];
+                A3 = [x, y + this.side];
+                break
+            case 4:
+                A1 = [x, y];
+                A2 = [x + this.side, y];
+                A3 = [x + Math.ceil(this.side / 2), y + this.side];
+                break
+            case 5:
+                A1 = [x, y];
+                A2 = [x, y + this.side];
+                A3 = [x + this.side, y + this.side];
+                break
+            case 6:
+                A1 = [x + this.side, y];
+                A2 = [x + this.side, y + this.side];
+                A3 = [x, y + Math.ceil(this.side / 2)];
+                break
+            case 7:
+                A1 = [x, y];
+                A2 = [x + this.side, y];
+                A3 = [x, y + this.side];
+                break
+        }
+
+        return [A1, A2, A3]
     }
 
     _createParameters() {
         this.side = Math.floor(100 + Math.random() * 100)
-        this.x = Math.floor(Math.random() * (game_space_canvas.width - this.side))
-        this.y = Math.floor(Math.random() * (game_space_canvas.height - this.side))
+        this.x = Math.floor(Math.random() * (game_space_canvas.width - this.side));
+        this.y = Math.floor(Math.random() * (game_space_canvas.height - this.side));
+        this.type = Math.floor(Math.random() * 8);
+        [this.A1, this.A2, this.A3] = this._getCoordsFromPoint(this.x, this.y);
         this.color = this._getRandomColor();
         this.stroke = this._getRandomColor();
-        this.type = Math.floor(Math.random() * 8)
+    }
+
+    _drawTriangle(A1, A2, A3, ctx) {
+        ctx.moveTo(...A3)
+        ctx.lineTo(...A1)
+        ctx.lineTo(...A2)
+        ctx.lineTo(...A3)
     }
 
     draw_in_center() {
@@ -109,116 +169,15 @@ class Triangle {
         example_canvas_context.fillStyle = this.color
         let x = Math.floor((example_canvas.width - this.side) / 2)
         let y = Math.floor((example_canvas.height - this.side) / 2)
-
-        switch (this.type) {
-            case 0:
-                example_canvas_context.moveTo(x + Math.ceil(this.side / 2), y)
-                example_canvas_context.lineTo(x + this.side, y + this.side)
-                example_canvas_context.lineTo(x, y + this.side)
-                example_canvas_context.lineTo(x + Math.ceil(this.side / 2), y)
-                break
-            case 1:
-                example_canvas_context.moveTo(x, y)
-                example_canvas_context.lineTo(x + this.side, y)
-                example_canvas_context.lineTo(x + this.side, y + this.side)
-                example_canvas_context.lineTo(x, y)
-                break
-            case 2:
-                example_canvas_context.moveTo(x, y)
-                example_canvas_context.lineTo(x + this.side, y + Math.ceil(this.side / 2))
-                example_canvas_context.lineTo(x, y + this.side)
-                example_canvas_context.lineTo(x, y)
-                break
-            case 3:
-                example_canvas_context.moveTo(x + this.side, y)
-                example_canvas_context.lineTo(x + this.side, y + this.side)
-                example_canvas_context.lineTo(x, y + this.side)
-                example_canvas_context.lineTo(x + this.side, y)
-                break
-            case 4:
-                example_canvas_context.moveTo(x, y)
-                example_canvas_context.lineTo(x + this.side, y)
-                example_canvas_context.lineTo(x  + Math.ceil(this.side / 2), y + this.side)
-                example_canvas_context.lineTo(x, y)
-                break
-            case 5:
-                example_canvas_context.moveTo(x, y)
-                example_canvas_context.lineTo(x, y + this.side)
-                example_canvas_context.lineTo(x + this.side, y + this.side)
-                example_canvas_context.lineTo(x, y)
-                break
-            case 6:
-                example_canvas_context.moveTo(x + this.side, y)
-                example_canvas_context.lineTo(x + this.side, y + this.side)
-                example_canvas_context.lineTo(x, y + Math.ceil(this.side / 2))
-                example_canvas_context.lineTo(x + this.side, y)
-                break
-            case 7:
-                example_canvas_context.moveTo(x, y)
-                example_canvas_context.lineTo(x + this.side, y)
-                example_canvas_context.lineTo(x, y + this.side)
-                example_canvas_context.lineTo(x, y)
-                break
-        }
-
+        let [A1, A2, A3] = this._getCoordsFromPoint(x, y)
+        this._drawTriangle(A1, A2, A3, example_canvas_context)
         example_canvas_context.fill()
     }
 
     draw() {
         game_space_canvas_context.beginPath()
         game_space_canvas_context.fillStyle = this.color
-
-        switch (this.type) {
-            case 0:
-                game_space_canvas_context.moveTo(this.x + Math.ceil(this.side / 2), this.y)
-                game_space_canvas_context.lineTo(this.x + this.side, this.y + this.side)
-                game_space_canvas_context.lineTo(this.x, this.y + this.side)
-                game_space_canvas_context.lineTo(this.x + Math.ceil(this.side / 2), this.y)
-                break
-            case 1:
-                game_space_canvas_context.moveTo(this.x, this.y)
-                game_space_canvas_context.lineTo(this.x + this.side, this.y)
-                game_space_canvas_context.lineTo(this.x + this.side, this.y + this.side)
-                game_space_canvas_context.lineTo(this.x, this.y)
-                break
-            case 2:
-                game_space_canvas_context.moveTo(this.x, this.y)
-                game_space_canvas_context.lineTo(this.x + this.side, this.y + Math.ceil(this.side / 2))
-                game_space_canvas_context.lineTo(this.x, this.y + this.side)
-                game_space_canvas_context.lineTo(this.x, this.y)
-                break
-            case 3:
-                game_space_canvas_context.moveTo(this.x + this.side, this.y)
-                game_space_canvas_context.lineTo(this.x + this.side, this.y + this.side)
-                game_space_canvas_context.lineTo(this.x, this.y + this.side)
-                game_space_canvas_context.lineTo(this.x + this.side, this.y)
-                break
-            case 4:
-                game_space_canvas_context.moveTo(this.x, this.y)
-                game_space_canvas_context.lineTo(this.x + this.side, this.y)
-                game_space_canvas_context.lineTo(this.x  + Math.ceil(this.side / 2), this.y + this.side)
-                game_space_canvas_context.lineTo(this.x, this.y)
-                break
-            case 5:
-                game_space_canvas_context.moveTo(this.x, this.y)
-                game_space_canvas_context.lineTo(this.x, this.y + this.side)
-                game_space_canvas_context.lineTo(this.x + this.side, this.y + this.side)
-                game_space_canvas_context.lineTo(this.x, this.y)
-                break
-            case 6:
-                game_space_canvas_context.moveTo(this.x + this.side, this.y)
-                game_space_canvas_context.lineTo(this.x + this.side, this.y + this.side)
-                game_space_canvas_context.lineTo(this.x, this.y + Math.ceil(this.side / 2))
-                game_space_canvas_context.lineTo(this.x + this.side, this.y)
-                break
-            case 7:
-                game_space_canvas_context.moveTo(this.x, this.y)
-                game_space_canvas_context.lineTo(this.x + this.side, this.y)
-                game_space_canvas_context.lineTo(this.x, this.y + this.side)
-                game_space_canvas_context.lineTo(this.x, this.y)
-                break
-        }
-
+        this._drawTriangle(this.A1, this.A2, this.A3, game_space_canvas_context)
         game_space_canvas_context.fill()
     }
 
@@ -228,52 +187,7 @@ class Triangle {
 
     collide(x, y) {
         let A = [x, y]
-        let A1, A2, A3;
-        switch (this.type) {
-            case 0:
-                A1 = [this.x + Math.ceil(this.side / 2), this.y];
-                A2 = [this.x + this.side, this.y + this.side];
-                A3 = [this.x, this.y + this.side];
-                break
-            case 1:
-                A1 = [this.x, this.y];
-                A2 = [this.x + this.side, this.y];
-                A3 = [this.x + this.side, this.y + this.side];
-                break
-            case 2:
-                A1 = [this.x, this.y];
-                A2 = [this.x + this.side, this.y + Math.ceil(this.side / 2)];
-                A3 = [this.x, this.y + this.side];
-                break
-            case 3:
-                A1 = [this.x + this.side, this.y];
-                A2 = [this.x + this.side, this.y + this.side];
-                A3 = [this.x, this.y + this.side];
-                break
-            case 4:
-                A1 = [this.x, this.y];
-                A2 = [this.x + this.side, this.y];
-                A3 = [this.x  + Math.ceil(this.side / 2), this.y + this.side];
-                break
-            case 5:
-                A1 = [this.x, this.y];
-                A2 = [this.x, this.y + this.side];
-                A3 = [this.x + this.side, this.y + this.side];
-                break
-            case 6:
-                A1 = [this.x + this.side, this.y];
-                A2 = [this.x + this.side, this.y + this.side];
-                A3 = [this.x, this.y + Math.ceil(this.side / 2)];
-                break
-            case 7:
-                A1 = [this.x, this.y];
-                A2 = [this.x + this.side, this.y];
-                A3 = [this.x, this.y + this.side];
-                break
-        }
-
-        console.log(A1, A2, A3)
-        return this._area(A, A1, A2) + this._area(A, A2, A3) + this._area(A, A1, A3) - this._area(A1, A2, A3) <= 2
+        return this._area(A, this.A1, this.A2) + this._area(A, this.A2, this.A3) + this._area(A, this.A1, this.A3) === this._area(this.A1, this.A2, this.A3)
     }
 }
 
@@ -288,28 +202,28 @@ function create_figure() {
     }
 }
 
-function clear_canvases(){
+function clear_canvases() {
     game_space_canvas_context.clearRect(0, 0, game_space_canvas.width, game_space_canvas.height)
     example_canvas_context.clearRect(0, 0, example_canvas.width, example_canvas.height)
 }
 
-function loose(){
+function loose() {
     clear_canvases()
     timer_value = 3
     clearInterval(timer)
     begin_button.classList.toggle('active')
-    alert('Loh!')
+    alert('Loose!')
     timer_text.textContent = '0'
     game_space_canvas.classList.toggle('active')
     score_value = 0;
     score_text.textContent = '0';
 }
 
-function update_time(){
+function update_time() {
     timer_text.textContent = (timer_value--).toString();
 }
 
-function update_score(){
+function update_score() {
     score_text.textContent = (++score_value).toString();
 }
 
@@ -318,7 +232,7 @@ function create_figures() {
 
     let figures_amount = 5 + Math.floor(Math.random() * 5)
 
-    for (let i = 0; i < figures_amount; i++){
+    for (let i = 0; i < figures_amount; i++) {
         main_figure = create_figure(i);
         main_figure.draw(game_space_canvas_context)
     }
@@ -334,7 +248,6 @@ const game_space_canvas = document.getElementById('game_space_canvas')
 const game_space_canvas_context = game_space_canvas.getContext('2d')
 const example_canvas = document.getElementById('example_canvas')
 const example_canvas_context = example_canvas.getContext('2d')
-const color_picker = document.querySelector('.color_picker')
 const begin_button = document.querySelector('.begin_button')
 let timer;
 let timer_value = 3;
@@ -354,7 +267,7 @@ begin_button.addEventListener('click', () => {
     game_space_canvas.classList.toggle('active')
 
     update_time();
-    timer = setInterval(() =>{
+    timer = setInterval(() => {
         if (timer_value >= 0) {
             update_time();
         } else {
@@ -372,8 +285,4 @@ game_space_canvas.addEventListener('click', (e) => {
     } else {
         loose()
     }
-})
-
-color_picker.addEventListener('change', () => {
-    game_space.style.background = color_picker.value;
 })
