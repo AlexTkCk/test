@@ -9,7 +9,9 @@ body {
     flex-direction: column;
     height: 100vh;
     min-height: 100%;
+    max-height: 100%;
     width: 100vw;
+    min-width: 100%;
     max-width: 100%;
     overflow: hidden;
 }
@@ -34,7 +36,7 @@ a:visited {
     background: #181818;
     display: flex;
     align-items: center;
-    height: 20%;
+    height: 28%;
 }
 /*Score style*/
 
@@ -84,10 +86,10 @@ a:visited {
 /*Controls style end*/
 
 .controls {
-    width: 33%;
+    width: 34%;
     height: 100%;
     display: flex;
-
+    flex-direction: column;
 }
 
 
@@ -99,8 +101,8 @@ a:visited {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 3% 2%;
-    height: 100%;
+    padding: 5% 2%;
+    height: 50%;
     flex: 1 1 50%;
 }
 
@@ -122,23 +124,22 @@ a:visited {
 
 /*Button style end*/
 .button_wrapper {
-    width: 33%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 50%;
     flex: 1 1 50%;
 }
 
 .begin_button {
     height: 50%;
-    width: 100%;
+    width: 50%;
     background: none;
     border: 2px solid #ffffff;
     color: white;
     font-size: 2.5em;
     padding: 5px 10px;
-    margin-right: 10px;
     border-radius: 5px;
     cursor: pointer;
     opacity: 50%;
@@ -151,7 +152,7 @@ a:visited {
 .begin_button::before,
 .begin_button::after {
     content: '';
-    
+
 }
 
 .begin_button::before {
@@ -179,6 +180,11 @@ a:visited {
 .game_space_wrapper {
     flex-grow: 1;
     overflow: hidden;
+}
+
+footer {
+    background: black;
+    height: 10%;
 }
 
 canvas .active{

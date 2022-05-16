@@ -260,20 +260,22 @@ example_canvas.width = example_screen.offsetWidth
 example_canvas.height = example_screen.offsetHeight
 let main_figure;
 
+console.log(game_space_canvas.width, game_space_canvas.height)
+
 begin_button.addEventListener('click', () => {
     create_figures()
 
-    begin_button.classList.toggle('active')
+    // begin_button.classList.toggle('active')
     game_space_canvas.classList.toggle('active')
 
-    update_time();
-    timer = setInterval(() => {
-        if (timer_value >= 0) {
-            update_time();
-        } else {
-            loose()
-        }
-    }, 500)
+    // update_time();
+    // timer = setInterval(() => {
+    //     if (timer_value >= 0) {
+    //         update_time();
+    //     } else {
+    //         loose()
+    //     }
+    // }, 500)
 })
 
 game_space_canvas.addEventListener('click', (e) => {
