@@ -192,13 +192,20 @@ class Triangle {
 }
 
 function create_figure() {
-    switch (Math.floor(Math.random() * 3)) {
+
+    function random_figure(figures){
+        return figures[Math.floor(Math.random() * figures.length)]
+    }
+
+    switch (Math.floor(Math.random() * difficulty_level)) {
         case 0:
             return new Rectangle();
         case 1:
             return new Circle();
         case 2:
             return new Triangle();
+        default:
+            return random_figure([new Rectangle(), new Circle(), new Triangle()])
     }
 }
 
@@ -208,6 +215,8 @@ function clear_canvases() {
 }
 
 function loose() {
+    bg_music.pause()
+    loose_sound.play()
     clear_canvases()
     timer_value = 5
     clearInterval(timer)
@@ -216,8 +225,19 @@ function loose() {
     timer_text.textContent = '0'
     game_space_canvas.classList.toggle('active')
     score_value = 0;
-    score_text.textContent = '0';
+    score_text.innerText = '0';
     score_wrapper.classList.toggle('active')
+    difficulty_level = 1
+    bg_music.play()
+}
+
+function update_diff_level() {
+    if (difficulty_level <= 5) {
+        difficulty_level = Math.floor(score_value / 5) + 1;
+    }
+    if (score_value % 5 === 0 && music_on) {
+        lvl_up_sound.play()
+    }
 }
 
 function update_time() {
@@ -225,23 +245,46 @@ function update_time() {
 }
 
 function update_score() {
-    score_text.textContent = (++score_value).toString();
+    score_text.innerText = (++score_value).toString();
+    update_diff_level()
+    score_text.style.transform = 'scale(1.5)'
+    setTimeout(() => {
+        score_text.style.transform = 'scale(1)'
+    }, 200)
 }
 
 function create_figures() {
     clear_canvases()
+    update_background();
 
-    let figures_amount = 5 + Math.floor(Math.random() * 5)
+    let figures_amount = (2 + difficulty_level) + Math.floor(Math.random() * (2 + Math.floor(difficulty_level / 5)))
 
     for (let i = 0; i < figures_amount; i++) {
-        main_figure = create_figure(i);
+        main_figure = create_figure();
         main_figure.draw(game_space_canvas_context)
     }
 
     main_figure.draw_in_center()
 }
 
+function update_background() {
+    if (difficulty_level > 4){
+        game_space_canvas_context.fillStyle = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`;
+        game_space_canvas_context.fillRect(0, 0, game_space_canvas.width, game_space_canvas.height)
+        console.log(game_space_canvas.width, game_space_canvas.height)
+    }
+}
 
+const volume = document.getElementById('volume')
+let music_on = true;
+const lvl_up_sound = new Audio('lvl_up_sound.mp3')
+const loose_sound = new Audio('loose_sound.mp3')
+const bg_music = document.getElementById('bg_music')
+loose_sound.volume = 0.1;
+bg_music.volume = 0.1;
+bg_music.play()
+const click_sound = new Audio('click_sound.mp3')
+click_sound.volume = 0.1
 const game_space = document.getElementById('game_space')
 const example_screen = document.getElementById('example_screen')
 const game_space_canvas = document.getElementById('game_space_canvas')
@@ -252,7 +295,7 @@ const begin_button = document.querySelector('.begin_button')
 let timer;
 let timer_value = 5;
 const timer_text = document.querySelector('.timer_text')
-const score_text = document.querySelector('.score')
+const score_text = document.getElementById('score_text')
 const score_wrapper = document.querySelector('.score_wrapper')
 let score_value = 0;
 game_space_canvas.width = game_space.offsetWidth
@@ -260,8 +303,7 @@ game_space_canvas.height = game_space.offsetHeight
 example_canvas.width = example_screen.offsetWidth
 example_canvas.height = example_screen.offsetHeight
 let main_figure;
-let difficulty_level = 0;
-
+let difficulty_level = 1;
 
 begin_button.addEventListener('click', () => {
     create_figures()
@@ -281,12 +323,27 @@ begin_button.addEventListener('click', () => {
 })
 
 game_space_canvas.addEventListener('click', (e) => {
+    click_sound.play()
     if (main_figure.collide(e.offsetX, e.offsetY)) {
         create_figures();
-        timer_value = 5;
+        if (difficulty_level > 3) {
+            timer_value = 3;
+        } else {
+            timer_value = 5;
+        }
         update_time();
         update_score();
     } else {
         loose()
     }
+})
+
+volume.addEventListener('click', () => {
+    volume.classList.toggle('active')
+    if (music_on) {
+        bg_music.volume = 0
+    } else {
+        bg_music.volume = 0.1
+    }
+    music_on = !music_on;
 })

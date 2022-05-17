@@ -8,10 +8,12 @@
 </head>
 <body>
 
+<audio src="bg_music.mp3" id="bg_music"></audio>
+
 <header class="aside_wrapper">
     <div class="score_wrapper">
         <h1 class="score_text">Score</h1>
-        <h1 class="score">0</h1>
+        <h1 class="score" id="score_text">0</h1>
     </div>
     <div id="example_screen" class="example_screen">
         <canvas id='example_canvas'>
@@ -24,6 +26,8 @@
         </div>
         <div class="button_wrapper">
             <button class="begin_button active">Begin</button>
+            <i class="fa-solid fa-volume-high" id="volume"></i>
+
         </div>
     </div>
 </header>
