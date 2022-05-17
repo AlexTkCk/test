@@ -139,6 +139,8 @@ a:visited {
     flex-direction: column;
     padding: 50px 5px;
     background: #090970;
+    overflow: hidden;
+
 }
 
 .button_wrapper {
