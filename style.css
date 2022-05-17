@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: monospace;
 }
 
 body {
@@ -41,7 +42,7 @@ a:visited {
 /*Score style*/
 
 .score_wrapper {
-    background: #313030;
+    background: #f5ae07;
     height: 100%;
     width: 33%;
     display: flex;
@@ -53,20 +54,20 @@ a:visited {
 }
 
 .score_text {
-    color: #e1e1e1;
-    font-size: 6em;
+    color: #ad3613;
+    font-size: 7em;
     font-family: monospace;
 }
+
 .score {
-    color: #e1e1e1;
-    font-size: 6em;
+    color: #ad3613;
+    font-size: 7em;
     font-family: monospace;
 }
-
-
 /*Score style end*/
-/*Example screen style*/
 
+
+/*Example screen style*/
 .example_screen {
     width: 33%;
     height: 110%;
@@ -79,23 +80,10 @@ a:visited {
     pointer-events: none;
     z-index: 100;
 }
-
-
 /*Example screen style end*/
 
-/*Controls style end*/
 
-.controls {
-    width: 34%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-
-/*Controls screen style end*/
 /*Timer style*/
-
 .timer_wrapper {
     display: flex;
     flex-direction: column;
@@ -111,6 +99,7 @@ a:visited {
     font-size: 5em;
     text-align: center;
 }
+
 .fa-clock {
     color: white;
     font-size: 60px;
@@ -118,11 +107,19 @@ a:visited {
     height: 60px;
     z-index: 100;
 }
-
 /*Timer style end*/
 
 
-/*Button style end*/
+/*Button style*/
+.controls {
+    width: 34%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 50px 5px;
+    background: #090970;
+}
+
 .button_wrapper {
     width: 100%;
     display: flex;
@@ -133,47 +130,56 @@ a:visited {
 }
 
 .begin_button {
-    height: 50%;
+    height: fit-content;
     width: 50%;
     background: none;
-    border: 2px solid #ffffff;
-    color: white;
-    font-size: 2.5em;
+    border: 3px solid #ffffff;
+    background: #8e97d9;
+    color: #051859;
+    font-size: 4em;
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
-    opacity: 50%;
     pointer-events: none;
     position: relative;
-
+    box-shadow: 3px 3px #7573b9;
+    overflow: hidden;
 }
 
+.begin_button:active {
+    box-shadow: none;
+    transform: translateX(3px) translateY(3px);
+}
 
 .begin_button::before,
 .begin_button::after {
     content: '';
-
+    width: 100%;
+    height: 100%;
+    top: 0;
+    position: absolute;
+    background: black;
+    transition: all 1s ease-in-out;
+    opacity: 0.1;
 }
 
-.begin_button::before {
+.begin_button.active::before {
     left: -100%;
 }
 
-.begin_button::after {
+.begin_button.active::after {
     right: -100%;
 }
 
-.begin_button:hover::before{
-    opacity: 100%;
-    transform: translateX(50%);
+.begin_button::before{
+    left: 0;
 
 }
 
-.begin_button:hover::after{
-    opacity: 100%;
-    transform: translateX(-50%);
+.begin_button::after{
+    right: 0;
 }
-
+/*Button style end*/
 
 /*---GAME_SPACE_STYLE-------------------------------------*/
 
@@ -183,8 +189,8 @@ a:visited {
 }
 
 footer {
-    background: black;
-    height: 10%;
+    background: rgb(4, 24, 58);
+    height: 5%;
 }
 
 canvas .active{

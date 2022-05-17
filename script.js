@@ -209,7 +209,7 @@ function clear_canvases() {
 
 function loose() {
     clear_canvases()
-    timer_value = 3
+    timer_value = 5
     clearInterval(timer)
     begin_button.classList.toggle('active')
     alert('Loose!')
@@ -238,7 +238,6 @@ function create_figures() {
     }
 
     main_figure.draw_in_center()
-
 }
 
 
@@ -250,7 +249,7 @@ const example_canvas = document.getElementById('example_canvas')
 const example_canvas_context = example_canvas.getContext('2d')
 const begin_button = document.querySelector('.begin_button')
 let timer;
-let timer_value = 3;
+let timer_value = 5;
 const timer_text = document.querySelector('.timer_text')
 const score_text = document.querySelector('.score')
 let score_value = 0;
@@ -259,29 +258,29 @@ game_space_canvas.height = game_space.offsetHeight
 example_canvas.width = example_screen.offsetWidth
 example_canvas.height = example_screen.offsetHeight
 let main_figure;
+let difficulty_level = 0;
 
-console.log(game_space_canvas.width, game_space_canvas.height)
 
 begin_button.addEventListener('click', () => {
     create_figures()
 
-    // begin_button.classList.toggle('active')
+    begin_button.classList.toggle('active')
     game_space_canvas.classList.toggle('active')
 
-    // update_time();
-    // timer = setInterval(() => {
-    //     if (timer_value >= 0) {
-    //         update_time();
-    //     } else {
-    //         loose()
-    //     }
-    // }, 500)
+    update_time();
+    timer = setInterval(() => {
+        if (timer_value >= 0) {
+            update_time();
+        } else {
+            loose()
+        }
+    }, 500)
 })
 
 game_space_canvas.addEventListener('click', (e) => {
     if (main_figure.collide(e.offsetX, e.offsetY)) {
         create_figures();
-        timer_value = 3;
+        timer_value = 5;
         update_time();
         update_score();
     } else {
