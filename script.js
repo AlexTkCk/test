@@ -217,6 +217,7 @@ function loose() {
     game_space_canvas.classList.toggle('active')
     score_value = 0;
     score_text.textContent = '0';
+    score_wrapper.classList.toggle('active')
 }
 
 function update_time() {
@@ -252,6 +253,7 @@ let timer;
 let timer_value = 5;
 const timer_text = document.querySelector('.timer_text')
 const score_text = document.querySelector('.score')
+const score_wrapper = document.querySelector('.score_wrapper')
 let score_value = 0;
 game_space_canvas.width = game_space.offsetWidth
 game_space_canvas.height = game_space.offsetHeight
@@ -266,6 +268,7 @@ begin_button.addEventListener('click', () => {
 
     begin_button.classList.toggle('active')
     game_space_canvas.classList.toggle('active')
+    score_wrapper.classList.toggle('active')
 
     update_time();
     timer = setInterval(() => {
